@@ -51,7 +51,10 @@ batdat<-readRDS("~/Desktop/umd/nsf_methylation/BatTib_25Oct23.rds")
 #keep samples in final metadata file
 batdat<-batdat[batdat$SID %in% methmeta.final$SID,]
 #remove duplicates
-batdat<-batdat[!duplicated(batdat$SID),]
+batdat.dupes<-batdat.dupes[duplicated(batdat.dupes$SID),]$Basename
+#in all cases, it looks like the first record in batdat df is the record in methmeta.final
+#therefore, we can just remove the second copy
+batdat<-batdat[!batdat$Basename %in% batdat.dupes,]
 
 batclocks<-read.csv("~/Desktop/umd/nsf_methylation/Bats_Coef.CombAnn.csv",h=T)
 
